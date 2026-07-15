@@ -220,35 +220,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (!state.running && !state.gameOver) {
-      drawOverlay("Press Start");
+      drawOverlay("시작");
     } else if (state.paused) {
-      drawOverlay("Paused");
+      drawOverlay("일시정지");
     } else if (state.gameOver) {
-      drawOverlay("Game Over");
+      drawOverlay("게임 오버");
     }
   };
 
   const updateStatus = () => {
     if (state.gameOver) {
-      setStateLabel("Game Over");
-      setMessage("Hit Restart to play again.");
+      setStateLabel("게임 오버");
+      setMessage("재시작을 눌러 다시 플레이하세요.");
       return;
     }
 
     if (!state.running) {
-      setStateLabel("Ready");
-      setMessage("Press Start or move with arrow keys / WASD.");
+      setStateLabel("준비");
+      setMessage("시작을 누르거나 방향키 / WASD로 이동하세요.");
       return;
     }
 
     if (state.paused) {
-      setStateLabel("Paused");
-      setMessage("Resume with Start or Pause.");
+      setStateLabel("일시정지");
+      setMessage("시작 또는 일시정지 버튼으로 다시 진행할 수 있습니다.");
       return;
     }
 
-    setStateLabel("Running");
-    setMessage("Collect food, avoid walls, self-collisions, and the exploding enemy.");
+    setStateLabel("진행 중");
+    setMessage("먹이를 먹고, 벽과 자기 몸, 폭발하는 적을 피해 주세요.");
   };
 
   const scheduleLoop = () => {
@@ -283,17 +283,17 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (!withinBounds(nextHead)) {
-      endGame("Snake hit the wall.");
+      endGame("지렁이가 벽에 부딪혔습니다.");
       return;
     }
 
     if (state.snake.some((segment) => samePoint(segment, nextHead))) {
-      endGame("Snake ran into itself.");
+      endGame("지렁이가 자기 몸에 부딪혔습니다.");
       return;
     }
 
     if (state.enemy && !state.enemy.exploding && samePoint(state.enemy, nextHead)) {
-      endGame("Snake collided with the enemy.");
+      endGame("지렁이가 적과 충돌했습니다.");
       return;
     }
 
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveHighScore();
       }
       setScoreLabel();
-      setMessage("Food collected. Keep going.");
+      setMessage("먹이를 먹었습니다. 계속 진행하세요.");
       spawnFood();
     } else {
       state.snake.pop();
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (now - state.enemyBurstAt >= ENEMY_BURST_MS) {
       state.enemy.exploding = true;
       state.enemy.respawnAt = now + ENEMY_RESPAWN_MS;
-      setMessage("Enemy exploded. A new one will spawn shortly.");
+      setMessage("적이 폭발했습니다. 곧 새 적이 생성됩니다.");
       return;
     }
 
@@ -348,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
     state.lastEnemyMove = now;
 
     if (state.snake.some((segment) => samePoint(segment, state.enemy))) {
-      endGame("Enemy touched the snake.");
+      endGame("적이 지렁이와 충돌했습니다.");
     }
   };
 
@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     state.enemyBurstAt = now;
     state.lastEnemyMove = now;
-    setMessage("Enemy respawned and resumed random movement.");
+    setMessage("적이 다시 생성되어 랜덤 이동을 시작했습니다.");
   };
 
   const tick = (now) => {
